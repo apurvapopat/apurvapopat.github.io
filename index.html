@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apurva Popat - Data Analyst Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: A single-page, vertical-scrolling application with a fixed top navigation bar for easy access to key sections. The structure is designed to tell a professional story, starting with a summary, progressing through an interactive career timeline, showcasing a skills dashboard, and finishing with a filterable project portfolio. This non-linear, exploratory structure allows recruiters to quickly jump to the information most relevant to them, such as specific skills or project experiences, which is more efficient than reading a linear document. -->
+    <!-- Visualization & Content Choices:
+        - Experience/Education -> Goal: Show Progression -> Viz: Interactive Vertical Timeline (HTML/CSS) -> Interaction: Hover to highlight, visually connecting career stages. Justification: More engaging and intuitive for understanding career trajectory.
+        - Skills -> Goal: Compare/Inform -> Viz: Horizontal Bar Chart (Chart.js Canvas) -> Interaction: Tooltips on hover provide context. Justification: Clearly visualizes proficiency across different technical domains, which is a key requirement for a data analyst role.
+        - Projects -> Goal: Organize/Explore -> Viz: Filterable Card Grid (HTML/Tailwind) -> Interaction: JS-powered buttons filter projects by technology. Justification: Allows users to instantly find evidence of specific skills (e.g., "Show me all Python projects"), making the portfolio highly practical for technical evaluation.
+        - Text -> Goal: Inform -> Viz: Structured Text Blocks. Justification: Provides necessary context for all visual elements.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F7F4;
+            color: #404040;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 500px;
+            max-height: 60vh;
+        }
+        .nav-link {
+            transition: color 0.3s;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #A58A57;
+        }
+        .timeline-item-content {
+            transition: all 0.3s ease;
+            border-left-color: #D1D5DB;
+        }
+        .timeline-item-content:hover {
+            background-color: #FFFFFF;
+            border-left-color: #A58A57;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .project-card {
+            transition: all 0.3s ease;
+            border: 1px solid #E5E7EB;
+        }
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+        }
+        .filter-btn.active {
+            background-color: #A58A57;
+            color: #FFFFFF;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav id="navbar" class="bg-white/80 backdrop-blur-md fixed top-0 left-0 right-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <span class="text-xl font-bold tracking-tight text-[#A58A57]">APURVA POPAT</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#summary" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Summary</a>
+                        <a href="#experience" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Experience</a>
+                        <a href="#skills" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Skills</a>
+                        <a href="#projects" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Projects</a>
+                        <a href="#contact" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Contact</a>
+                    </div>
+                </div>
+                 <div class="md:hidden">
+                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#A58A57]">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                            <path class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                            <path class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="md:hidden hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#summary" class="nav-link block px-3 py-2 rounded-md text-base font-medium">Summary</a>
+                <a href="#experience" class="nav-link block px-3 py-2 rounded-md text-base font-medium">Experience</a>
+                <a href="#skills" class="nav-link block px-3 py-2 rounded-md text-base font-medium">Skills</a>
+                <a href="#projects" class="nav-link block px-3 py-2 rounded-md text-base font-medium">Projects</a>
+                <a href="#contact" class="nav-link block px-3 py-2 rounded-md text-base font-medium">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-16">
+        <section id="summary" class="py-20 md:py-28">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h1 class="text-4xl md:text-6xl font-bold tracking-tight">Sports Data Analyst</h1>
+                <p class="mt-6 text-lg md:text-xl text-gray-600 leading-8">
+                    I am an experienced Sports Data Analyst with a proven track record in managing large-scale performance data. I excel in Python, SQL, and PowerBI to create insightful dashboards and powerful visualizations that drive decision-making. My expertise extends to designing workflows for sports science teams, leading projects in injury analysis, and facilitating cross-functional collaboration.
+                </p>
+            </div>
+        </section>
+
+        <section id="experience" class="py-20 bg-white">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Career & Education Timeline</h2>
+                    <p class="mt-4 text-lg text-gray-600">A journey of continuous growth in data and technology.</p>
+                </div>
+                <div id="timeline-container" class="relative">
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Technical Skillset</h2>
+                    <p class="mt-4 text-lg text-gray-600">A visual overview of my core competencies in data analysis and software development.</p>
+                </div>
+                <div class="chart-container">
+                    <canvas id="skillsChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Project Portfolio</h2>
+                    <p class="mt-4 text-lg text-gray-600">Explore my hands-on experience. Filter projects by technology to see relevant work.</p>
+                </div>
+                <div id="filters" class="flex flex-wrap justify-center gap-2 mb-12">
+                </div>
+                <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                </div>
+            </div>
+        </section>
+
+        <footer id="contact" class="bg-gray-800 text-white">
+            <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-2xl font-bold">Get In Touch</h2>
+                <p class="mt-4 text-gray-300">I'm always open to discussing new projects, creative ideas, or opportunities.</p>
+                <div class="mt-8 flex justify-center items-center space-x-6">
+                     <a href="mailto:apwork26@gmail.com" class="text-gray-300 hover:text-white">apwork26@gmail.com</a>
+                    <span>&bull;</span>
+                    <a href="https://linkedin.com/in/apurvapopat" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white">LinkedIn</a>
+                    <span>&bull;</span>
+                    <span class="text-gray-300">+91 7738136979</span>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const timelineData = [
+                {
+                    type: 'Work',
+                    date: 'Jan 2023 - Jan 2024',
+                    title: 'Lead Data Analyst',
+                    company: 'Inspire Institute Of Sport, JSW Sports',
+                    location: 'Bellary',
+                    description: [
+                        'Maintained and optimized over 50+ PowerBI dashboards for sport science and performance analysis.',
+                        'Developed a new sport-specific testing app and dashboard using Flask and Streamlit for athlete database projects.',
+                        'Integrated PIT-M Video Analytics to ensure seamless data capture and analysis for performance tracking.',
+                        'Executed a web scraping project to gather Athletics performance data from the World Athletics Website.'
+                    ]
+                },
+                {
+                    type: 'Work',
+                    date: 'Aug 2022 - Aug 2023',
+                    title: 'Amazon Campaign Analyst',
+                    company: '99yrs LLP',
+                    location: 'Mumbai',
+                    description: [
+                        'Coordinated cross-functional teams (marketing, design, development) for Amazon campaign initiatives.',
+                        'Analyzed multi-source data to identify trends and insights for optimizing campaign performance and predicting ROI.',
+                        'Utilized Excel and PowerBI extensively to monitor, evaluate, and report on campaign performance.',
+                        'Developed detailed dashboards to track key metrics and provide optimization insights to stakeholders.'
+                    ]
+                },
+                {
+                    type: 'Education',
+                    date: 'Undergrad',
+                    title: 'Bachelor of Technology, Electronics & Telecommunication',
+                    company: 'K.J. Somaiya College of Engineering(University of Mumbai)',
+                    location: 'Belgaum',
+                    description: [
+                        'Specialisation in Big Data Analytics & Network Security.',
+                        'Gained a strong foundation in data structures, algorithms, and network protocols.'
+                    ]
+                },
+                {
+                    type: 'Certification',
+                    date: 'Ongoing',
+                    title: 'Sports Performance Analytics Specialization',
+                    company: 'Coursera',
+                    location: '',
+                    description: []
+                },
+                {
+                    type: 'Certification',
+                    date: 'Ongoing',
+                    title: 'Google Data Analytics Professional Certificate',
+                    company: 'Coursera',
+                    location: '',
+                    description: []
+                },
+            ];
+
+            const timelineContainer = document.getElementById('timeline-container');
+            timelineData.forEach((item, index) => {
+                const isLast = index === timelineData.length - 1;
+                const timelineItem = `
+                    <div class="timeline-item relative ${!isLast ? 'pb-8' : ''}">
+                        <div class="absolute top-0 left-3 -ml-px mt-2 w-0.5 h-full bg-gray-300"></div>
+                        <div class="relative flex items-start group">
+                            <div class="bg-gray-300 group-hover:bg-[#A58A57] w-6 h-6 rounded-full flex items-center justify-center ring-4 ring-white transition-colors">
+                                <span class="text-white text-xs font-bold">${item.type.charAt(0)}</span>
+                            </div>
+                            <div class="timeline-item-content ml-6 p-4 rounded-lg bg-gray-50 border-l-4 w-full">
+                                <p class="text-sm font-medium text-gray-500">${item.date}</p>
+                                <h3 class="mt-1 text-lg font-semibold text-gray-900">${item.title}</h3>
+                                <p class="mt-1 text-md text-gray-700">${item.company} ${item.location ? `&bull; ${item.location}` : ''}</p>
+                                ${item.description.length > 0 ? `
+                                <ul class="mt-2 list-disc list-inside space-y-1 text-gray-600">
+                                    ${item.description.map(d => `<li>${d}</li>`).join('')}
+                                </ul>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                timelineContainer.innerHTML += timelineItem;
+            });
+
+
+            const skillsData = {
+                labels: ['Python', 'SQL', 'PowerBI', 'Pandas', 'Streamlit', 'OpenCV', 'Project Management', 'Google G-suite'],
+                datasets: [{
+                    label: 'Proficiency Level',
+                    data: [95, 90, 95, 85, 80, 75, 90, 85],
+                    backgroundColor: 'rgba(165, 138, 87, 0.6)',
+                    borderColor: 'rgba(165, 138, 87, 1)',
+                    borderWidth: 1,
+                    barPercentage: 0.6,
+                    categoryPercentage: 0.8
+                }]
+            };
+
+            const ctx = document.getElementById('skillsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: skillsData,
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: '#333',
+                            titleFont: { size: 14 },
+                            bodyFont: { size: 12 },
+                            padding: 10,
+                            cornerRadius: 4
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            grid: {
+                                color: '#E5E7EB'
+                            },
+                            ticks: {
+                                color: '#404040',
+                                font: {
+                                    size: 14,
+                                    weight: '500'
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+
+            const projectsData = [
+                {
+                    title: 'T20 Match Analysis Dashboard',
+                    tags: ['Python', 'PowerBI', 'Streamlit', 'Pandas'],
+                    description: 'Built an interactive Streamlit app to analyze and visualize T20 cricket matches from IPL and BCCI. Features include data cleaning, transformation, and visualization of key performance trends, run rate comparisons, and score potential spikes.'
+                },
+                {
+                    title: 'Advanced Cricket Ball Outcome Prediction',
+                    tags: ['Python', 'Machine Learning'],
+                    description: 'Developed a machine learning solution (Random Forest, Gradient Boosting) to predict runs per ball using a proprietary dataset of over 200,000 deliveries. Conducted comprehensive model evaluation and extracted insights to optimize bowler strategies.'
+                },
+                {
+                    title: 'Control Your Computer with Hand Gestures',
+                    tags: ['Python', 'Hardware'],
+                    description: 'Created a system to control a computer using hand gestures. Utilized Python, Arduino, and two ultrasonic sensors on a monitor to detect hand distance, enabling gesture-based command execution via a Raspberry Pi.'
+                },
+                {
+                    title: 'Distinct Defect Detection in Fabric',
+                    tags: ['Python', 'OpenCV', 'Machine Learning'],
+                    description: 'Engineered a system for fabric defect detection using image processing. Used OpenCV for filtering and edge detection, and combined it with deep learning for accurate defect identification, significantly improving quality control processes.'
+                }
+            ];
+
+            const projectsGrid = document.getElementById('projects-grid');
+            const filtersContainer = document.getElementById('filters');
+
+            const allTags = [...new Set(projectsData.flatMap(p => p.tags))];
+
+            filtersContainer.innerHTML += `<button class="filter-btn active px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-full hover:bg-gray-200 transition" data-filter="all">All</button>`;
+            allTags.forEach(tag => {
+                filtersContainer.innerHTML += `<button class="filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-full hover:bg-gray-200 transition" data-filter="${tag}">${tag}</button>`;
+            });
+
+            const renderProjects = (filter = 'all') => {
+                projectsGrid.innerHTML = '';
+                const filteredProjects = filter === 'all' ? projectsData : projectsData.filter(p => p.tags.includes(filter));
+
+                filteredProjects.forEach(project => {
+                    const card = `
+                        <div class="project-card bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
+                            <div class="p-6 flex-grow">
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    ${project.tags.map(tag => `<span class="inline-block bg-yellow-100 text-yellow-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">${tag}</span>`).join('')}
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-900">${project.title}</h3>
+                                <p class="mt-2 text-gray-600">${project.description}</p>
+                            </div>
+                        </div>
+                    `;
+                    projectsGrid.innerHTML += card;
+                });
+            };
+
+            filtersContainer.addEventListener('click', (e) => {
+                if(e.target.classList.contains('filter-btn')) {
+                    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                    e.target.classList.add('active');
+                    renderProjects(e.target.dataset.filter);
+                }
+            });
+
+            renderProjects();
+
+            const navbar = document.getElementById('navbar');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('main > section');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.4
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href').substring(1) === entry.target.id) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const iconPaths = mobileMenuButton.querySelectorAll('path');
+
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                iconPaths.forEach(path => path.classList.toggle('hidden'));
+            });
+
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    iconPaths.forEach(path => path.classList.toggle('hidden'));
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>
