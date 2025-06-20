@@ -61,6 +61,29 @@
             background-color: #A58A57;
             color: #FFFFFF;
         }
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            background-color: #f0f0f0; /* Light background for the band */
+            padding: 8px 0;
+            margin-top: 20px;
+        }
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 25s linear infinite;
+            padding-left: 100%; /* Start off-screen */
+        }
+        .marquee-item {
+            display: inline-block;
+            margin-right: 30px;
+            font-weight: 500;
+            color: #6B7280;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -107,8 +130,27 @@
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                 <h1 class="text-4xl md:text-6xl font-bold tracking-tight">Sports Data Analyst</h1>
                 <p class="mt-6 text-lg md:text-xl text-gray-600 leading-8">
-                    I am an experienced Sports Data Analyst with a proven track record in managing large-scale performance data. I excel in Python, SQL, and PowerBI to create insightful dashboards and powerful visualizations that drive decision-making. My expertise extends to designing workflows for sports science teams, leading projects in injury analysis, and facilitating cross-functional collaboration.
+                    I am an experienced **Performance Analyst** with a proven track record in managing large-scale performance data. I excel in Python, SQL, and PowerBI to create insightful dashboards and powerful visualizations that drive decision-making. My expertise extends to designing workflows for sports science teams, leading projects in injury analysis, and facilitating cross-functional collaboration.
                 </p>
+                <div class="marquee-container mt-8">
+                    <div class="marquee-content">
+                        <span class="marquee-item">Python</span>
+                        <span class="marquee-item">SQL</span>
+                        <span class="marquee-item">PowerBI</span>
+                        <span class="marquee-item">Data Visualization</span>
+                        <span class="marquee-item">Machine Learning</span>
+                        <span class="marquee-item">Flask</span>
+                        <span class="marquee-item">Streamlit</span>
+                        <span class="marquee-item">Data Modeling</span>
+                        <span class="marquee-item">Statistical Analysis</span>
+                        <span class="marquee-item">Web Scraping</span>
+                        <span class="marquee-item">OpenCV</span>
+                        <span class="marquee-item">Project Management</span>
+                        <span class="marquee-item">Performance Metrics</span>
+                        <span class="marquee-item">ETL Processes</span>
+                        <span class="marquee-item">Cloud Platforms (G-suite)</span>
+                    </div>
+                </div>
             </div>
         </section>
 
