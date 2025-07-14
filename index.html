@@ -132,7 +132,7 @@
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                 <h1 class="text-4xl md:text-6xl font-bold tracking-tight">Performance Analyst</h1>
                 <p class="mt-6 text-lg md:text-xl text-gray-600 leading-8">
-                    I am an experienced Performance & Sports Data Analyst Analyst with a proven track record in managing large-scale performance data. I excel in Python, SQL, and PowerBI to create insightful dashboards and powerful visualizations that drive decision-making. My expertise extends to designing workflows for sports science teams, leading projects in injury analysis, and facilitating cross-functional collaboration.
+                    I am an experienced Performance & Sports Data Analyst with a proven track record in managing large-scale performance data. I leverage Excel, Python, SQL, and PowerBI to create insightful dashboards and powerful visualizations that drive decision-making. My expertise extends to designing workflows for sports science teams, leading projects in injury analysis, and facilitating cross-functional collaboration.
                 </p>
                 <div class="marquee-container mt-8">
                     <div class="marquee-content">
@@ -212,36 +212,34 @@
 
             const timelineData = [
                 {
-                    type: 'Work',
-                    date: 'Apr 2025 - Present',
-                    title: 'Performance Analyst',
+                    type: 'CompanyGroup', // New type to indicate a company with multiple roles
                     company: 'Inspire Institute Of Sport, JSW Sports',
                     location: 'Bellary',
-                    description: [
-                        'Currently leading performance analysis initiatives, leveraging data to drive athletic improvement.'
-                    ]
-                },
-                {
-                    type: 'Work',
-                    date: 'Oct 2022 - Mar 2025',
-                    title: 'Lead Data Analyst',
-                    company: 'Inspire Institute Of Sport, JSW Sports',
-                    location: 'Bellary',
-                    description: [
-                        'Maintained and optimized over 50+ PowerBI dashboards for sport science and performance analysis.',
-                        'Developed a new sport-specific testing app and dashboard using Flask and Streamlit for athlete database projects.',
-                        'Integrated IIT-M Video Analytics to ensure seamless data capture and analysis for performance tracking.',
-                        'Executed a web scraping project to gather Athletics performance data from the World Athletics Website.'
-                    ]
-                },
-                {
-                    type: 'Work',
-                    date: 'Mar 2022 - Sep 2022',
-                    title: 'Data Management',
-                    company: 'Inspire Institute Of Sport, JSW Sports',
-                    location: 'Bellary',
-                    description: [
-                        'Managed and organized large datasets for sports science applications, ensuring data integrity and accessibility.'
+                    roles: [
+                        {
+                            date: 'Apr 2025 - Present',
+                            title: 'Performance Analyst',
+                            description: [
+                                'Athletics Performance Analyst: Specializing in data-driven athlete development, this role leverages advanced tools to optimize performance. Through high-speed video analysis (using Dartfish) and the strategic integration of performance data, the analyst identifies key areas for improvement. Data from sources like World Athletics is meticulously stored in Postgres, with comprehensive insights then visualized and presented via Power BI to coaching staff and athletes.'
+                            ]
+                        },
+                        {
+                            date: 'Oct 2022 - Mar 2025',
+                            title: 'Lead Data Analyst',
+                            description: [
+                                'Maintained and optimized over 50+ PowerBI dashboards for sport science and performance analysis.',
+                                'Developed new sport-specific testing app and dashboard using Flask and Streamlit for athlete database projects.',
+                                'Integrated PIT-M Video Analytics and ensured seamless data capture and analysis for performance tracking.',
+                                'Executed a web scraping project for Athletics performance data from World Athletics Website.'
+                            ]
+                        },
+                        {
+                            date: 'Mar 2022 - Sep 2022',
+                            title: 'Data Management',
+                            description: [
+                                'Managed and organized large datasets for sports science applications, ensuring data integrity and accessibility.'
+                            ]
+                        }
                     ]
                 },
                 {
@@ -262,7 +260,7 @@
                     date: 'Undergrad',
                     title: 'Bachelor of Technology, Electronics & Telecommunication',
                     company: 'K.J. Somaiya College of Engineering(University of Mumbai)',
-                    location: 'Belgaum',
+                    location: 'Mumabai',
                     description: [
                         'Specialisation in Big Data Analytics & Network Security.',
                         'Gained a strong foundation in data structures, algorithms, and network protocols.'
