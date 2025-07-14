@@ -75,7 +75,9 @@
         }
         .marquee-content {
             display: inline-block;
-            animation: marquee 30s linear infinite;
+            animation: marquee 20s linear infinite; /* Adjusted duration for duplicated content */
+            will-change: transform; /* Performance hint for animation */
+            /* No padding-left: 100%; here */
         }
         .marquee-item {
             display: inline-block;
