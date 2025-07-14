@@ -62,8 +62,8 @@
             color: #FFFFFF;
         }
         @keyframes marquee {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); } /* Move exactly half of its total width for seamless loop with duplicated content */
         }
         .marquee-container {
             width: 100%;
@@ -85,6 +85,20 @@
             font-weight: 500;
             color: #6B7280;
         }
+        /* Styles for nested roles */
+        .timeline-company-header {
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #E5E7EB;
+        }
+        .timeline-role-item {
+            margin-left: 2rem; /* Indent roles */
+            padding-left: 1rem;
+            border-left: 2px solid #D1D5DB; /* Visual line for progression */
+            margin-bottom: 1rem;
+        }
+        .timeline-role-item:last-child {
+            margin-bottom: 0;
         }
     </style>
 </head>
@@ -132,10 +146,26 @@
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                 <h1 class="text-4xl md:text-6xl font-bold tracking-tight">Performance Analyst</h1>
                 <p class="mt-6 text-lg md:text-xl text-gray-600 leading-8">
-                    I am an experienced Performance & Sports Data Analyst with a proven track record in managing large-scale performance data. I leverage Excel, Python, SQL, and PowerBI to create insightful dashboards and powerful visualizations that drive decision-making. My expertise extends to designing workflows for sports science teams, leading projects in injury analysis, and facilitating cross-functional collaboration.
+                    I am an experienced **Performance Analyst** with a proven track record in managing large-scale performance data. I excel in Python, SQL, and PowerBI to create insightful dashboards and powerful visualizations that drive decision-making. My expertise extends to designing workflows for sports science teams, leading projects in injury analysis, and facilitating cross-functional collaboration.
                 </p>
                 <div class="marquee-container mt-8">
                     <div class="marquee-content">
+                        <span class="marquee-item">Python</span>
+                        <span class="marquee-item">SQL</span>
+                        <span class="marquee-item">PowerBI</span>
+                        <span class="marquee-item">Data Visualization</span>
+                        <span class="marquee-item">Machine Learning</span>
+                        <span class="marquee-item">Flask</span>
+                        <span class="marquee-item">Streamlit</span>
+                        <span class="marquee-item">Data Modeling</span>
+                        <span class="marquee-item">Statistical Analysis</span>
+                        <span class="marquee-item">Web Scraping</span>
+                        <span class="marquee-item">OpenCV</span>
+                        <span class="marquee-item">Project Management</span>
+                        <span class="marquee-item">Performance Metrics</span>
+                        <span class="marquee-item">ETL Processes</span>
+                        <span class="marquee-item">Cloud Platforms (G-suite)</span>
+                        <!-- Duplicated content for seamless looping -->
                         <span class="marquee-item">Python</span>
                         <span class="marquee-item">SQL</span>
                         <span class="marquee-item">PowerBI</span>
@@ -220,7 +250,7 @@
                             date: 'Apr 2025 - Present',
                             title: 'Performance Analyst',
                             description: [
-                                'Athletics Performance Analyst: Specializing in data-driven athlete development, this role leverages advanced tools to optimize performance. Through high-speed video analysis (using Dartfish) and the strategic integration of performance data, the analyst identifies key areas for improvement. Data from sources like World Athletics is meticulously stored in Postgres, with comprehensive insights then visualized and presented via Power BI to coaching staff and athletes.'
+                                'Specializing in data-driven athlete development, this role leverages advanced tools to optimize performance. Through high-speed video analysis (using Dartfish) and the strategic integration of performance data, the analyst identifies key areas for improvement. Data from sources like World Athletics is meticulously stored in Postgres, with comprehensive insights then visualized and presented via Power BI to coaching staff and athletes.'
                             ]
                         },
                         {
@@ -285,28 +315,64 @@
             ];
 
             const timelineContainer = document.getElementById('timeline-container');
+            timelineContainer.innerHTML = ''; // Clear existing content
+
             timelineData.forEach((item, index) => {
                 const isLast = index === timelineData.length - 1;
-                const timelineItem = `
-                    <div class="timeline-item relative ${!isLast ? 'pb-8' : ''}">
-                        <div class="absolute top-0 left-3 -ml-px mt-2 w-0.5 h-full bg-gray-300"></div>
-                        <div class="relative flex items-start group">
-                            <div class="bg-gray-300 group-hover:bg-[#A58A57] w-6 h-6 rounded-full flex items-center justify-center ring-4 ring-white transition-colors">
-                                <span class="text-white text-xs font-bold">${item.type.charAt(0)}</span>
-                            </div>
-                            <div class="timeline-item-content ml-6 p-4 rounded-lg bg-gray-50 border-l-4 w-full">
-                                <p class="text-sm font-medium text-gray-500">${item.date}</p>
-                                <h3 class="mt-1 text-lg font-semibold text-gray-900">${item.title}</h3>
-                                <p class="mt-1 text-md text-gray-700">${item.company} ${item.location ? `&bull; ${item.location}` : ''}</p>
-                                ${item.description.length > 0 ? `
-                                <ul class="mt-2 list-disc list-inside space-y-1 text-gray-600">
-                                    ${item.description.map(d => `<li>${d}</li>`).join('')}
-                                </ul>` : ''}
+                let itemHtml = '';
+
+                if (item.type === 'CompanyGroup') {
+                    // Render the main company header
+                    itemHtml += `
+                        <div class="timeline-item relative ${!isLast ? 'pb-8' : ''}">
+                            <div class="absolute top-0 left-3 -ml-px mt-2 w-0.5 h-full bg-gray-300"></div>
+                            <div class="relative flex items-start group">
+                                <div class="bg-gray-300 group-hover:bg-[#A58A57] w-6 h-6 rounded-full flex items-center justify-center ring-4 ring-white transition-colors">
+                                    <span class="text-white text-xs font-bold">C</span>
+                                </div>
+                                <div class="timeline-item-content ml-6 p-4 rounded-lg bg-gray-50 border-l-4 w-full">
+                                    <h3 class="text-lg font-bold text-gray-900">${item.company}</h3>
+                                    <p class="text-md text-gray-700">${item.location}</p>
+                                    <div class="mt-4">
+                                        <!-- Nested roles -->
+                                        ${item.roles.map(role => `
+                                            <div class="timeline-role-item mt-4">
+                                                <p class="text-sm font-medium text-gray-500">${role.date}</p>
+                                                <h4 class="mt-1 text-md font-semibold text-gray-800">${role.title}</h4>
+                                                ${role.description.length > 0 ? `
+                                                <ul class="mt-1 list-disc list-inside space-y-1 text-gray-600 text-sm">
+                                                    ${role.description.map(d => `<li>${d}</li>`).join('')}
+                                                </ul>` : ''}
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                `;
-                timelineContainer.innerHTML += timelineItem;
+                    `;
+                } else {
+                    // Render other types (Work, Education, Certification) as before
+                    itemHtml += `
+                        <div class="timeline-item relative ${!isLast ? 'pb-8' : ''}">
+                            <div class="absolute top-0 left-3 -ml-px mt-2 w-0.5 h-full bg-gray-300"></div>
+                            <div class="relative flex items-start group">
+                                <div class="bg-gray-300 group-hover:bg-[#A58A57] w-6 h-6 rounded-full flex items-center justify-center ring-4 ring-white transition-colors">
+                                    <span class="text-white text-xs font-bold">${item.type.charAt(0)}</span>
+                                </div>
+                                <div class="timeline-item-content ml-6 p-4 rounded-lg bg-gray-50 border-l-4 w-full">
+                                    <p class="text-sm font-medium text-gray-500">${item.date}</p>
+                                    <h3 class="mt-1 text-lg font-semibold text-gray-900">${item.title}</h3>
+                                    <p class="mt-1 text-md text-gray-700">${item.company} ${item.location ? `&bull; ${item.location}` : ''}</p>
+                                    ${item.description.length > 0 ? `
+                                    <ul class="mt-2 list-disc list-inside space-y-1 text-gray-600">
+                                        ${item.description.map(d => `<li>${d}</li>`).join('')}
+                                    </ul>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+                timelineContainer.innerHTML += itemHtml;
             });
 
 
@@ -314,7 +380,7 @@
                 labels: ['Python', 'SQL', 'PowerBI', 'Pandas', 'Streamlit', 'OpenCV', 'Project Management', 'Google G-suite'],
                 datasets: [{
                     label: 'Proficiency Level',
-                    data: [85, 70, 85, 80, 70, 70, 90, 90],
+                    data: [95, 90, 95, 85, 80, 75, 90, 85],
                     backgroundColor: 'rgba(165, 138, 87, 0.6)',
                     borderColor: 'rgba(165, 138, 87, 1)',
                     borderWidth: 1,
