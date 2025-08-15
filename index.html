@@ -437,27 +437,52 @@
 
 
             const projectsData = [
-                {
-                    title: 'T20 Match Analysis Dashboard',
-                    tags: ['Python', 'PowerBI', 'Streamlit', 'Pandas'],
-                    description: 'Built an interactive Streamlit app to analyze and visualize T20 cricket matches from IPL and BCCI. Features include data cleaning, transformation, and visualization of key performance trends, run rate comparisons, and score potential spikes.'
-                },
-                {
-                    title: 'Advanced Cricket Ball Outcome Prediction',
-                    tags: ['Python', 'Machine Learning'],
-                    description: 'Developed a machine learning solution (Random Forest, Gradient Boosting) to predict runs per ball using a proprietary dataset of over 200,000 deliveries. Conducted comprehensive model evaluation and extracted insights to optimize bowler strategies.'
-                },
-                {
-                    title: 'Control Your Computer with Hand Gestures',
-                    tags: ['Python', 'Hardware'],
-                    description: 'Created a system to control a computer using hand gestures. Utilized Python, Arduino, and two ultrasonic sensors on a monitor to detect hand distance, enabling gesture-based command execution via a Raspberry Pi.'
-                },
-                {
-                    title: 'Distinct Defect Detection in Fabric',
-                    tags: ['Python', 'OpenCV', 'Machine Learning'],
-                    description: 'Engineered a system for fabric defect detection using image processing. Used OpenCV for filtering and edge detection, and combined it with deep learning for accurate defect identification, significantly improving quality control processes.'
-                }
-            ];
+    {
+        title: 'Peak Performance & Athlete Pathways Analysis',
+        tags: ['Python', 'SQL', 'Machine Learning', 'Data Visualization', 'Web Scraping'],
+        description: 'Conducted a comprehensive analysis to determine the peak performance age across various Olympic sports and model performance pathways for key Athletics events. The project involved scraping large datasets from the World Athletics website using Python (BeautifulSoup, Selenium), followed by statistical analysis and regression modeling to identify critical development stages. The findings were presented through interactive visualizations in Power BI, providing coaches with data-driven insights to optimize training and strategy.'
+    },
+    {
+        title: 'Talent Hub Identification & Athlete Tracking System',
+        tags: ['Python', 'Power BI', 'Excel', 'Data Analysis', 'Data Engineering'],
+        description: 'Engineered a data-driven framework to identify high-potential talent hubs across India. Utilized Python (Tabula) to automate the extraction of competition results from PDFs, followed by Excel for data cleaning. The project culminated in an interactive Power BI dashboard and a dynamic athlete database, enabling stakeholders to track top-performing states and scout promising athletes based on consistent results over two years. This system streamlined the talent identification process and improved resource allocation.'
+    },
+    {
+        title: 'Judo Performance Analysis & Web Scraping Workflow',
+        tags: ['Python', 'Pandas', 'Web Scraping', 'Data Analysis'],
+        description: 'Developed an end-to-end data workflow to scrape competition data from online sports databases using Python. Conducted a two-part analysis on Judo Olympic and World Championship medalists, including age distribution and a correlation analysis using the Pearson Correlation Coefficient to identify performance trends.'
+    },
+    {
+        title: 'Performance Dashboard for Athlete Workflows',
+        tags: ['Power BI', 'Data Integration', 'Workflow Automation'],
+        description: 'Created a comprehensive Power BI dashboard integrated with Edge10/Teamworks to support the performance team\'s workflows. This solution provides a centralized view of athlete data, enabling streamlined performance monitoring and decision-making for coaching staff.'
+    },
+    {
+        title: 'SwimPro Performance Analysis System',
+        tags: ['Data Visualization', 'Power BI', 'Excel'],
+        description: 'Implemented a new performance analysis system for swimming. This project involved developing a detailed dashboard and supporting analysis models to track and visualize key swimming metrics, providing coaches with actionable insights to optimize athlete training.'
+    },
+    {
+        title: 'Automated Computer Vision Fabric Detection',
+        tags: ['Python', 'OpenCV', 'Machine Learning'],
+        description: 'Engineered an automated quality control system for fabric manufacturing. Utilized OpenCV for advanced image processing and integrated a Convolutional Neural Network (CNN) model to accurately detect and classify distinct fabric defects, significantly improving production efficiency.'
+    },
+    {
+        title: 'Hand Gesture Control System',
+        tags: ['Python', 'Hardware', 'Computer Vision'],
+        description: 'Built a hands-free computer control interface by integrating Arduino ultrasonic sensors with a Raspberry Pi. The system uses Python to interpret hand distances from the monitor and translate them into specific computer commands, demonstrating a practical application of hardware and software integration.'
+    },
+    {
+        title: 'T20 Match Analysis Dashboard',
+        tags: ['Python', 'PowerBI', 'Streamlit', 'Pandas'],
+        description: 'Built an interactive Streamlit app to analyze and visualize T20 cricket matches from IPL and BCCI. Features include data cleaning, transformation, and visualization of key performance trends, run rate comparisons, and score potential spikes.'
+    },
+    {
+        title: 'Advanced Cricket Ball Outcome Prediction',
+        tags: ['Python', 'Machine Learning'],
+        description: 'Developed a machine learning solution (Random Forest, Gradient Boosting) to predict runs per ball using a proprietary dataset of over 200,000 deliveries. Conducted comprehensive model evaluation and extracted insights to optimize bowler strategies.'
+    }
+];
 
             const projectsGrid = document.getElementById('projects-grid');
             const filtersContainer = document.getElementById('filters');
@@ -546,3 +571,4 @@
     </script>
 </body>
 </html>
+
