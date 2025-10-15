@@ -473,7 +473,302 @@
                 grid-template-columns: repeat(4, 1fr);
             }
         }
-    </style>
+    
+
+        /* ========================================
+           MOBILE OPTIMIZATIONS
+           ======================================== */
+
+        /* Mobile-first responsive breakpoints */
+        @media (max-width: 768px) {
+            /* Typography - smaller on mobile */
+            .text-5xl { font-size: 2rem !important; }
+            .text-4xl { font-size: 1.75rem !important; }
+            .text-3xl { font-size: 1.5rem !important; }
+            .text-2xl { font-size: 1.25rem !important; }
+            .text-xl { font-size: 1.125rem !important; }
+
+            /* Reduce padding on mobile */
+            .py-20 { padding-top: 3rem !important; padding-bottom: 3rem !important; }
+            .py-16 { padding-top: 2.5rem !important; padding-bottom: 2.5rem !important; }
+            .p-10 { padding: 1.5rem !important; }
+            .p-8 { padding: 1.25rem !important; }
+            .p-6 { padding: 1rem !important; }
+
+            .mb-16 { margin-bottom: 2rem !important; }
+            .mb-12 { margin-bottom: 1.5rem !important; }
+            .mb-8 { margin-bottom: 1rem !important; }
+
+            /* Container - reduce padding */
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+
+            /* Avatar - smaller on mobile */
+            .avatar {
+                width: 80px;
+                height: 80px;
+                font-size: 32px;
+                margin-bottom: 1rem;
+            }
+
+            /* About section - more readable text */
+            #about p {
+                font-size: 1rem !important;
+                line-height: 1.6;
+                margin-bottom: 1rem !important;
+            }
+
+            /* Buttons - full width on mobile */
+            .btn-primary,
+            .btn-secondary {
+                width: 100%;
+                margin: 0.5rem 0;
+                padding: 14px 20px;
+                font-size: 1rem;
+            }
+
+            .flex-wrap.gap-4 {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            /* Grid - single column on mobile */
+            .grid {
+                grid-template-columns: 1fr !important;
+                gap: 1.5rem !important;
+            }
+
+            /* Skill categories - better mobile spacing */
+            .skill-category {
+                padding: 1.5rem;
+            }
+
+            .skill-category-icon {
+                width: 48px;
+                height: 48px;
+                margin-bottom: 12px;
+            }
+
+            .skill-category-icon i {
+                font-size: 24px;
+            }
+
+            .skill-badge {
+                font-size: 12px;
+                padding: 5px 10px;
+                margin: 2px;
+            }
+
+            /* Timeline - more compact on mobile */
+            .timeline-item {
+                padding-left: 28px;
+                margin-bottom: 2rem;
+            }
+
+            .timeline-item::before {
+                width: 12px;
+                height: 12px;
+                left: 10px;
+            }
+
+            .timeline-item::after {
+                left: 15px;
+            }
+
+            .timeline-content {
+                padding: 1rem;
+            }
+
+            .timeline-role-item {
+                margin-left: 12px;
+                padding-left: 12px;
+                margin-bottom: 12px;
+            }
+
+            /* Project cards - better mobile layout */
+            .project-card {
+                margin-bottom: 1rem;
+            }
+
+            .project-card .p-6 {
+                padding: 1.25rem !important;
+            }
+
+            /* Filter buttons - wrap better on mobile */
+            .filter-btn {
+                font-size: 13px;
+                padding: 6px 12px;
+                margin: 3px;
+            }
+
+            #filters {
+                margin-bottom: 1.5rem !important;
+            }
+
+            /* Navigation - mobile menu visible */
+            .mobile-hidden {
+                display: none !important;
+            }
+
+            .mobile-menu {
+                display: block !important;
+            }
+
+            /* Contact section - stack vertically */
+            #contact .flex-wrap {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            #contact a,
+            #contact span {
+                font-size: 1rem !important;
+                margin: 0.75rem 0;
+                word-break: break-all;
+            }
+
+            #contact i {
+                font-size: 1.25rem !important;
+            }
+
+            /* Section titles and subtitles */
+            .section-title {
+                font-size: 1.75rem !important;
+                margin-bottom: 0.75rem !important;
+            }
+
+            .section-subtitle {
+                font-size: 1rem !important;
+                margin-bottom: 2rem !important;
+            }
+        }
+
+        /* Small mobile devices (phones < 480px) */
+        @media (max-width: 480px) {
+            /* Even smaller text */
+            .text-5xl { font-size: 1.75rem !important; }
+            .text-4xl { font-size: 1.5rem !important; }
+            .text-3xl { font-size: 1.375rem !important; }
+
+            /* Tighter spacing */
+            .py-20 { padding-top: 2rem !important; padding-bottom: 2rem !important; }
+            .container {
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+            }
+
+            /* Avatar even smaller */
+            .avatar {
+                width: 64px;
+                height: 64px;
+                font-size: 28px;
+            }
+
+            /* Skill cards more compact */
+            .skill-category {
+                padding: 1rem;
+            }
+
+            /* Timeline more compact */
+            .timeline-item {
+                padding-left: 24px;
+            }
+
+            .timeline-content {
+                padding: 0.75rem;
+            }
+        }
+
+        /* Tablet devices (768px - 1024px) */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .grid-cols-4 {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+
+            .grid-cols-3 {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+
+            .container {
+                max-width: 100%;
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+
+            .text-5xl { font-size: 2.5rem; }
+            .text-4xl { font-size: 2rem; }
+        }
+
+        /* Touch device optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            /* Larger tap targets for touch */
+            .nav-link {
+                padding: 12px 20px;
+                min-height: 44px;
+            }
+
+            .btn-primary,
+            .btn-secondary {
+                min-height: 48px;
+                padding: 12px 24px;
+            }
+
+            .filter-btn {
+                min-height: 36px;
+                padding: 8px 16px;
+            }
+
+            /* Remove hover effects on touch devices */
+            .dark-card:hover,
+            .skill-category:hover,
+            .project-card:hover,
+            .timeline-content:hover {
+                transform: none;
+            }
+
+            /* But add tap feedback */
+            .dark-card:active,
+            .skill-category:active,
+            .project-card:active {
+                transform: scale(0.98);
+            }
+        }
+
+        /* Landscape phone orientation */
+        @media (max-width: 896px) and (orientation: landscape) {
+            .py-20 { padding-top: 2rem !important; padding-bottom: 2rem !important; }
+            .avatar {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+            }
+        }
+
+        /* Prevent horizontal scroll on small screens */
+        @media (max-width: 768px) {
+            body {
+                overflow-x: hidden;
+            }
+
+            * {
+                max-width: 100%;
+            }
+
+            /* Ensure long text breaks properly */
+            p, li, span {
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
+
+            /* Ensure images don't overflow */
+            img {
+                max-width: 100%;
+                height: auto;
+            }
+        }
+</style>
 </head>
 <body>
     <!-- Navigation -->
@@ -562,8 +857,7 @@
             </div>
         </section>
 
-<!-- Skills Section -->
-        <section id="skills" class="py-20 skills-dark">
+<section id="skills" class="py-20 skills-dark">
             <div class="container">
                 <div class="text-center mb-16">
                     <h2 class="text-4xl font-bold section-title">Skills & Expertise</h2>
