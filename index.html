@@ -3,246 +3,798 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apurva Popat - Data Analyst Portfolio</title>
+    <title>Apurva Popat - Performance Analyst Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Warm Neutrals -->
-    <!-- Application Structure Plan: A single-page, vertical-scrolling application with a fixed top navigation bar for easy access to key sections. The structure is designed to tell a professional story, starting with a summary, progressing through an interactive career timeline, showcasing a skills dashboard, and finishing with a filterable project portfolio. This non-linear, exploratory structure allows recruiters to quickly jump to the information most relevant to them, such as specific skills or project experiences, which is more efficient than reading a linear document. -->
-    <!-- Visualization & Content Choices:
-        - Experience/Education -> Goal: Show Progression -> Viz: Interactive Vertical Timeline (HTML/CSS) -> Interaction: Hover to highlight, visually connecting career stages. Justification: More engaging and intuitive for understanding career trajectory.
-        - Skills -> Goal: Compare/Inform -> Viz: Horizontal Bar Chart (Chart.js Canvas) -> Interaction: Tooltips on hover provide context. Justification: Clearly visualizes proficiency across different technical domains, which is a key requirement for a data analyst role.
-        - Projects -> Goal: Organize/Explore -> Viz: Filterable Card Grid (HTML/Tailwind) -> Interaction: JS-powered buttons filter projects by technology. Justification: Allows users to instantly find evidence of specific skills (e.g., "Show me all Python projects"), making the portfolio highly practical for technical evaluation.
-        - Text -> Goal: Inform -> Viz: Structured Text Blocks. Justification: Provides necessary context for all visual elements.
-    -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #F8F7F4;
-            color: #404040;
+        :root {
+            /* Dark LinkedIn-inspired Palette */
+            --primary-dark: #0f172a;
+            --secondary-dark: #1e293b;
+            --card-dark: #334155;
+            --linkedin-blue: #0a66c2;
+            --linkedin-light-blue: #4a9eff;
+            --accent-blue: #60a5fa;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border-color: #475569;
+            --hover-bg: #475569;
         }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-dark) 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Dark Cards */
+        .dark-card {
+            background: linear-gradient(145deg, var(--secondary-dark) 0%, var(--card-dark) 100%);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .dark-card:hover {
+            border-color: var(--linkedin-blue);
+            box-shadow: 0 12px 40px rgba(10, 102, 194, 0.2);
+            transform: translateY(-4px);
+        }
+
+        /* Navigation */
+        .navbar-dark {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            font-weight: 500;
+            padding: 8px 16px;
+            transition: all 0.2s ease;
+            border-radius: 6px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--linkedin-blue);
+            background: rgba(10, 102, 194, 0.1);
+        }
+
+        /* Skills Section */
+        .skills-dark {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #0f1419 100%);
+        }
+
+        .skill-category {
+            background: linear-gradient(145deg, var(--secondary-dark) 0%, var(--card-dark) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-category::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--linkedin-blue), var(--accent-blue));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .skill-category:hover::before {
+            transform: scaleX(1);
+        }
+
+        .skill-category:hover {
+            border-color: var(--linkedin-blue);
+            box-shadow: 0 16px 40px rgba(10, 102, 194, 0.2);
+            transform: translateY(-6px);
+        }
+
+        .skill-category-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--linkedin-blue), var(--accent-blue));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 24px rgba(10, 102, 194, 0.3);
+        }
+
+        .skill-category-icon i {
+            color: white;
+            font-size: 28px;
+        }
+
+        .skill-badge {
+            display: inline-block;
+            background: rgba(10, 102, 194, 0.1);
+            color: var(--text-secondary);
+            border: 1px solid rgba(10, 102, 194, 0.3);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            margin: 3px;
+            transition: all 0.2s ease;
+        }
+
+        .skill-badge:hover {
+            background: var(--linkedin-blue);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* Timeline Styles */
+        .timeline-container {
+            position: relative;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 40px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 12px;
+            top: 12px;
+            width: 16px;
+            height: 16px;
+            background: linear-gradient(135deg, var(--linkedin-blue), var(--accent-blue));
+            border-radius: 50%;
+            border: 4px solid var(--primary-dark);
+            z-index: 2;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 19px;
+            top: 28px;
+            width: 2px;
+            height: calc(100% + 16px);
+            background: linear-gradient(180deg, var(--linkedin-blue), rgba(10, 102, 194, 0.3));
+        }
+
+        .timeline-item:last-child::after {
+            display: none;
+        }
+
+        .timeline-content {
+            background: linear-gradient(145deg, var(--secondary-dark) 0%, var(--card-dark) 100%);
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            border-color: var(--linkedin-blue);
+            box-shadow: 0 8px 32px rgba(10, 102, 194, 0.2);
+            transform: translateX(8px);
+        }
+
+        .timeline-role-item {
+            margin-left: 20px;
+            padding-left: 16px;
+            border-left: 2px solid var(--border-color);
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .timeline-role-item::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 8px;
+            width: 10px;
+            height: 10px;
+            background: var(--accent-blue);
+            border-radius: 50%;
+        }
+
+        /* Project Cards */
+        .project-card {
+            background: linear-gradient(145deg, var(--secondary-dark) 0%, var(--card-dark) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--linkedin-blue), var(--accent-blue));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .project-card:hover {
+            border-color: var(--linkedin-blue);
+            box-shadow: 0 16px 48px rgba(10, 102, 194, 0.25);
+            transform: translateY(-8px);
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--linkedin-blue), var(--accent-blue));
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(10, 102, 194, 0.3);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(10, 102, 194, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--linkedin-blue);
+            border: 2px solid var(--linkedin-blue);
+            padding: 10px 22px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-secondary:hover {
+            background: var(--linkedin-blue);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Filter Buttons */
+        .filter-btn {
+            background: rgba(10, 102, 194, 0.1);
+            color: var(--text-secondary);
+            border: 1px solid rgba(10, 102, 194, 0.3);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin: 4px;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--linkedin-blue);
+            color: var(--linkedin-blue);
+        }
+
+        .filter-btn.active {
+            background: var(--linkedin-blue);
+            color: white;
+            border-color: var(--linkedin-blue);
+        }
+
+        /* Section Headers */
+        .section-title {
+            color: var(--text-primary);
+            font-weight: 700;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            color: var(--text-muted);
+            font-size: 18px;
+            margin-bottom: 48px;
+        }
+
+        /* Chart Container */
         .chart-container {
             position: relative;
             width: 100%;
             max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 500px;
-            max-height: 60vh;
+            margin: 0 auto;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
         }
-        .nav-link {
-            transition: color 0.3s;
+
+        /* Avatar */
+        .avatar {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--linkedin-blue), var(--accent-blue));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: bold;
+            color: white;
+            margin: 0 auto 24px;
+            box-shadow: 0 12px 32px rgba(10, 102, 194, 0.3);
         }
-        .nav-link:hover, .nav-link.active {
-            color: #A58A57;
+
+        /* Utility Classes */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
         }
-        .timeline-item-content {
-            transition: all 0.3s ease;
-            border-left-color: #D1D5DB;
+
+        .grid {
+            display: grid;
+            gap: 2rem;
         }
-        .timeline-item-content:hover {
-            background-color: #FFFFFF;
-            border-left-color: #A58A57;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+
+        .grid-cols-1 { grid-template-columns: repeat(1, 1fr); }
+        .grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+        .grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+        .grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+        .flex {
+            display: flex;
         }
-        .project-card {
-            transition: all 0.3s ease;
-            border: 1px solid #E5E7EB;
+
+        .flex-wrap {
+            flex-wrap: wrap;
         }
-        .project-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+
+        .justify-center {
+            justify-content: center;
         }
-        .filter-btn.active {
-            background-color: #A58A57;
-            color: #FFFFFF;
+
+        .items-center {
+            align-items: center;
         }
-        @keyframes marquee {
-            0% { transform: translateX(0%); }
-            100% { transform: translateX(-50%); } /* Move exactly half of its total width for seamless loop with duplicated content */
+
+        .gap-2 { gap: 0.5rem; }
+        .gap-4 { gap: 1rem; }
+        .gap-6 { gap: 1.5rem; }
+        .gap-8 { gap: 2rem; }
+
+        .p-6 { padding: 1.5rem; }
+        .p-8 { padding: 2rem; }
+        .p-10 { padding: 2.5rem; }
+
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-3 { margin-bottom: 0.75rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .mb-8 { margin-bottom: 2rem; }
+        .mb-12 { margin-bottom: 3rem; }
+        .mb-16 { margin-bottom: 4rem; }
+
+        .text-center {
+            text-align: center;
         }
-        .marquee-container {
-            width: 100%;
-            overflow: hidden;
-            white-space: nowrap;
-            background-color: #f0f0f0; /* Light background for the band */
-            padding: 8px 0;
-            margin-top: 20px;
+
+        .text-white { color: white; }
+        .text-gray-300 { color: #d1d5db; }
+        .text-gray-400 { color: #9ca3af; }
+        .text-gray-500 { color: #6b7280; }
+
+        .text-xl { font-size: 1.25rem; }
+        .text-2xl { font-size: 1.5rem; }
+        .text-3xl { font-size: 1.875rem; }
+        .text-4xl { font-size: 2.25rem; }
+        .text-5xl { font-size: 3rem; }
+
+        .font-bold { font-weight: 700; }
+        .font-semibold { font-weight: 600; }
+
+        .leading-relaxed { line-height: 1.75; }
+
+        .py-16 { padding-top: 4rem; padding-bottom: 4rem; }
+        .py-20 { padding-top: 5rem; padding-bottom: 5rem; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .grid-cols-2,
+            .grid-cols-3,
+            .grid-cols-4 {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline-item {
+                padding-left: 32px;
+            }
+
+            .mobile-hidden {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
         }
-        .marquee-content {
-            display: inline-block;
-            animation: marquee 30s linear infinite; /* Doubled duration for doubled content to maintain speed */
-            will-change: transform; /* Performance hint for animation */
-            /* No padding-left: 100%; here */
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .grid-cols-3,
+            .grid-cols-4 {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
-        .marquee-item {
-            display: inline-block;
-            margin-right: 30px;
-            font-weight: 500;
-            color: #6B7280;
-        }
-        /* Styles for nested roles */
-        .timeline-company-header {
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid #E5E7EB;
-        }
-        .timeline-role-item {
-            margin-left: 2rem; /* Indent roles */
-            padding-left: 1rem;
-            border-left: 2px solid #D1D5DB; /* Visual line for progression */
-            margin-bottom: 1rem;
-        }
-        .timeline-role-item:last-child {
-            margin-bottom: 0;
+
+        @media (min-width: 1025px) {
+            .grid-cols-4 {
+                grid-template-columns: repeat(4, 1fr);
+            }
         }
     </style>
 </head>
-<body class="antialiased">
-
-    <nav id="navbar" class="bg-white/80 backdrop-blur-md fixed top-0 left-0 right-0 z-50 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex-shrink-0">
-                    <span class="text-xl font-bold tracking-tight text-[#A58A57]">APURVA POPAT</span>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar-dark" style="position: fixed; top: 0; width: 100%; z-index: 50;">
+        <div class="container" style="max-width: 1280px; margin: 0 auto; padding: 0 1rem;">
+            <div class="flex" style="justify-content: space-between; align-items: center; height: 4rem;">
+                <div>
+                    <h1 style="font-size: 1.5rem; font-weight: 700; color: white;">Apurva Popat</h1>
                 </div>
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-4">
-                        <a href="#summary" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Summary</a>
-                        <a href="#experience" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Experience</a>
-                        <a href="#skills" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Skills</a>
-                        <a href="#projects" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Projects</a>
-                        <a href="#contact" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Contact</a>
-                    </div>
+                <div class="mobile-hidden" style="display: flex; gap: 0.5rem;">
+                    <a href="#about" class="nav-link">About</a>
+                    <a href="#timeline" class="nav-link">Experience</a>
+                    <a href="#skills" class="nav-link">Skills</a>
+                    <a href="#projects" class="nav-link">Projects</a>
+                    <a href="#contact" class="nav-link">Contact</a>
                 </div>
-                 <div class="md:hidden">
-                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#A58A57]">
-                        <span class="sr-only">Open main menu</span>
-                        <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                            <path class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                            <path class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
+                <button id="mobile-menu-button" class="mobile-menu" style="display: none; color: white; background: none; border: none; cursor: pointer;">
+                    <svg style="width: 1.5rem; height: 1.5rem;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
             </div>
         </div>
-        <div id="mobile-menu" class="md:hidden hidden">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#summary" class="nav-link block px-3 py-2 rounded-md text-base font-medium">Summary</a>
-                <a href="#experience" class="nav-link block px-3 py-2 rounded-md text-base font-medium">Experience</a>
-                <a href="#skills" class="nav-link block px-3 py-2 rounded-md text-base font-medium">Skills</a>
-                <a href="#projects" class="nav-link block px-3 py-2 rounded-md text-base font-medium">Projects</a>
-                <a href="#contact" class="nav-link block px-3 py-2 rounded-md text-base font-medium">Contact</a>
+        <div id="mobile-menu" style="display: none;" class="navbar-dark">
+            <div style="padding: 1rem;">
+                <a href="#about" class="nav-link" style="display: block; margin-bottom: 0.5rem;">About</a>
+                <a href="#timeline" class="nav-link" style="display: block; margin-bottom: 0.5rem;">Experience</a>
+                <a href="#skills" class="nav-link" style="display: block; margin-bottom: 0.5rem;">Skills</a>
+                <a href="#projects" class="nav-link" style="display: block; margin-bottom: 0.5rem;">Projects</a>
+                <a href="#contact" class="nav-link" style="display: block;">Contact</a>
             </div>
         </div>
     </nav>
 
-    <main class="pt-16">
-        <section id="summary" class="py-20 md:py-28">
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h1 class="text-4xl md:text-6xl font-bold tracking-tight">Performance Analyst</h1>
-                <p class="mt-6 text-lg md:text-xl text-gray-600 leading-8">
-                    I am a Performance and Sport Data Consultant with a proven track record of managing and transforming large-scale performance data into actionable insights. Skilled in Excel, Python, SQL,RDMS and Power BI, I design and deploy interactive dashboards that have streamlined reporting workflows and reduced turnaround times by 40%, enabling faster and more informed decision-making for coaches and management. I have successfully integrated 5+ athlete management and sport science data sources into centralized repositories(like Edge10 and Teamworks), improving accessibility and consistency of athlete records across departments. My work spans video analysis, injury monitoring, and performance benchmarking, where I have created end-to-end workflows that combine scientific rigor with practical usability. In collaboration with multidisciplinary teams — including coaches, physiotherapists, medical staff, and data scientists — I have contributed to building holistic athlete performance profiles, supporting long-term athlete development, injury prevention, and return-to-play strategies.
-                </p>
-                <div class="marquee-container mt-8">
-                    <div class="marquee-content">
-                        <span class="marquee-item">Python</span>
-                        <span class="marquee-item">SQL</span>
-                        <span class="marquee-item">PowerBI</span>
-                        <span class="marquee-item">Data Visualization</span>
-                        <span class="marquee-item">Machine Learning</span>
-                        <span class="marquee-item">Flask</span>
-                        <span class="marquee-item">Streamlit</span>
-                        <span class="marquee-item">Data Modeling</span>
-                        <span class="marquee-item">Statistical Analysis</span>
-                        <span class="marquee-item">Web Scraping</span>
-                        <span class="marquee-item">OpenCV</span>
-                        <span class="marquee-item">Project Management</span>
-                        <span class="marquee-item">Performance Metrics</span>
-                        <span class="marquee-item">ETL Processes</span>
-                        <span class="marquee-item">Cloud Platforms (G-suite)</span>
-                        <!-- Duplicated content for seamless looping -->
-                        <span class="marquee-item">Python</span>
-                        <span class="marquee-item">SQL</span>
-                        <span class="marquee-item">PowerBI</span>
-                        <span class="marquee-item">Data Visualization</span>
-                        <span class="marquee-item">Machine Learning</span>
-                        <span class="marquee-item">Flask</span>
-                        <span class="marquee-item">Streamlit</span>
-                        <span class="marquee-item">Data Modeling</span>
-                        <span class="marquee-item">Statistical Analysis</span>
-                        <span class="marquee-item">Web Scraping</span>
-                        <span class="marquee-item">OpenCV</span>
-                        <span class="marquee-item">Project Management</span>
-                        <span class="marquee-item">Performance Metrics</span>
-                        <span class="marquee-item">ETL Processes</span>
-                        <span class="marquee-item">Cloud Platforms (G-suite)</span>
+    <main style="padding-top: 4rem;">
+        <!-- Hero/About Section -->
+        <section id="about" class="py-20">
+            <div class="container">
+                <div class="dark-card p-10">
+                    <div class="text-center">
+                        <div class="avatar">AP</div>
+                        <h1 class="text-5xl font-bold section-title mb-6">Performance Analyst</h1>
+                        <p class="text-xl text-gray-300 mb-6 leading-relaxed">
+                            I am a Performance and Sport Data Consultant with a proven track record of managing and transforming 
+                            large-scale performance data into actionable insights. Skilled in Excel, Python, SQL, RDMS and Power BI, 
+                            I design and deploy interactive dashboards that have streamlined reporting workflows and reduced turnaround 
+                            times by 40%, enabling faster and more informed decision-making for coaches and management.
+                        </p>
+                        <p class="text-xl text-gray-300 mb-6 leading-relaxed">
+                            I have successfully integrated 5+ athlete management and sport science data sources into centralized 
+                            repositories (like Edge10 and Teamworks), improving accessibility and consistency of athlete records 
+                            across departments. My work spans video analysis, injury monitoring, and performance benchmarking, where 
+                            I have created end-to-end workflows that combine scientific rigor with practical usability.
+                        </p>
+                        <p class="text-xl text-gray-300 mb-8 leading-relaxed">
+                            In collaboration with multidisciplinary teams — including coaches, physiotherapists, medical staff, and 
+                            data scientists — I have contributed to building holistic athlete performance profiles, supporting 
+                            long-term athlete development, injury prevention, and return-to-play strategies.
+                        </p>
+                        <div class="flex flex-wrap justify-center gap-4">
+                            <a href="https://linkedin.com/in/apurvapopat" target="_blank" class="btn-primary">
+                                <i class="fab fa-linkedin" style="margin-right: 0.5rem;"></i>Connect on LinkedIn
+                            </a>
+                            <a href="mailto:apwork26@gmail.com" class="btn-secondary">
+                                <i class="fas fa-envelope" style="margin-right: 0.5rem;"></i>Get in Touch
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="experience" class="py-20 bg-white">
-            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Timeline Section -->
+        <section id="timeline" class="py-20">
+            <div class="container" style="max-width: 64rem;">
                 <div class="text-center mb-16">
-                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Career & Education Timeline</h2>
-                    <p class="mt-4 text-lg text-gray-600">A journey of continuous growth in data and technology.</p>
+                    <h2 class="text-4xl font-bold section-title">Career & Education Timeline</h2>
+                    <p class="section-subtitle">A journey of continuous growth in data and technology</p>
                 </div>
-                <div id="timeline-container" class="relative">
+                <div class="timeline-container" id="timeline-container">
+                    <!-- Timeline will be populated by JavaScript -->
                 </div>
             </div>
         </section>
 
-        <section id="skills" class="py-20">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Skills Section -->
+        <section id="skills" class="py-20 skills-dark">
+            <div class="container">
                 <div class="text-center mb-16">
-                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Technical Skillset</h2>
-                    <p class="mt-4 text-lg text-gray-600">A visual overview of my core competencies in data analysis and software development.</p>
+                    <h2 class="text-4xl font-bold section-title">Skills & Expertise</h2>
+                    <p class="section-subtitle">A comprehensive toolkit spanning AI, analytics, data engineering, and strategic business insights</p>
                 </div>
-                <div class="chart-container">
-                    <canvas id="skillsChart"></canvas>
+
+                <div class="grid grid-cols-1 grid-cols-2 grid-cols-3 grid-cols-4">
+                    <!-- AI & Machine Learning -->
+                    <div class="skill-category">
+                        <div class="skill-category-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-4">AI & Machine Learning</h3>
+                        <div class="flex flex-wrap">
+                            <span class="skill-badge">OpenAI GPT-4</span>
+                            <span class="skill-badge">Claude</span>
+                            <span class="skill-badge">LangChain</span>
+                            <span class="skill-badge">RAG</span>
+                            <span class="skill-badge">Vector Databases</span>
+                            <span class="skill-badge">NLP</span>
+                            <span class="skill-badge">TensorFlow</span>
+                            <span class="skill-badge">PyTorch</span>
+                            <span class="skill-badge">Scikit-learn</span>
+                            <span class="skill-badge">Predictive Modeling</span>
+                            <span class="skill-badge">Deep Learning</span>
+                            <span class="skill-badge">Neural Networks</span>
+                        </div>
+                    </div>
+
+                    <!-- Programming & Development -->
+                    <div class="skill-category">
+                        <div class="skill-category-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-4">Programming & Development</h3>
+                        <div class="flex flex-wrap">
+                            <span class="skill-badge">Python</span>
+                            <span class="skill-badge">R</span>
+                            <span class="skill-badge">SQL</span>
+                            <span class="skill-badge">JavaScript</span>
+                            <span class="skill-badge">Pandas</span>
+                            <span class="skill-badge">NumPy</span>
+                            <span class="skill-badge">Scipy</span>
+                            <span class="skill-badge">PySpark</span>
+                            <span class="skill-badge">Git</span>
+                            <span class="skill-badge">REST APIs</span>
+                            <span class="skill-badge">Streamlit</span>
+                            <span class="skill-badge">Flask</span>
+                            <span class="skill-badge">FastAPI</span>
+                        </div>
+                    </div>
+
+                    <!-- Data Engineering & ETL -->
+                    <div class="skill-category">
+                        <div class="skill-category-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-4">Data Engineering & ETL</h3>
+                        <div class="flex flex-wrap">
+                            <span class="skill-badge">ETL/ELT Pipelines</span>
+                            <span class="skill-badge">Data Warehousing</span>
+                            <span class="skill-badge">PostgreSQL</span>
+                            <span class="skill-badge">BigQuery</span>
+                            <span class="skill-badge">Apache Spark</span>
+                            <span class="skill-badge">Data Modeling</span>
+                        </div>
+                    </div>
+
+                    <!-- Analytics & BI Tools -->
+                    <div class="skill-category">
+                        <div class="skill-category-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-4">Analytics & BI Tools</h3>
+                        <div class="flex flex-wrap">
+                            <span class="skill-badge">Tableau</span>
+                            <span class="skill-badge">Power BI</span>
+                            <span class="skill-badge">Looker Studio</span>
+                            <span class="skill-badge">SAP Analytics Cloud</span>
+                            <span class="skill-badge">Plotly</span>
+                            <span class="skill-badge">Seaborn</span>
+                            <span class="skill-badge">Matplotlib</span>
+                            <span class="skill-badge">Statistical Analysis</span>
+                            <span class="skill-badge">A/B Testing</span>
+                        </div>
+                    </div>
+
+                    <!-- Sports Analytics -->
+                    <div class="skill-category">
+                        <div class="skill-category-icon">
+                            <i class="fas fa-running"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-4">Sports Analytics</h3>
+                        <div class="flex flex-wrap">
+                            <span class="skill-badge">Performance Analysis</span>
+                            <span class="skill-badge">Video Analysis</span>
+                            <span class="skill-badge">Dartfish</span>
+                            <span class="skill-badge">Edge10</span>
+                            <span class="skill-badge">Teamworks</span>
+                            <span class="skill-badge">Athlete Monitoring</span>
+                            <span class="skill-badge">Sport Science</span>
+                            <span class="skill-badge">Biomechanics</span>
+                        </div>
+                    </div>
+
+                    <!-- Cloud & Infrastructure -->
+                    <div class="skill-category">
+                        <div class="skill-category-icon">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-4">Cloud & Infrastructure</h3>
+                        <div class="flex flex-wrap">
+                            <span class="skill-badge">Google Cloud Platform</span>
+                            <span class="skill-badge">Azure</span>
+                            <span class="skill-badge">Docker</span>
+                            <span class="skill-badge">Kubernetes</span>
+                            <span class="skill-badge">CI/CD</span>
+                            <span class="skill-badge">Databricks</span>
+                            <span class="skill-badge">Jupyter</span>
+                            <span class="skill-badge">VS Code</span>
+                        </div>
+                    </div>
+
+                    <!-- Computer Vision -->
+                    <div class="skill-category">
+                        <div class="skill-category-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-4">Computer Vision</h3>
+                        <div class="flex flex-wrap">
+                            <span class="skill-badge">OpenCV</span>
+                            <span class="skill-badge">Image Processing</span>
+                            <span class="skill-badge">Object Detection</span>
+                            <span class="skill-badge">CNN</span>
+                            <span class="skill-badge">Feature Extraction</span>
+                        </div>
+                    </div>
+
+                    <!-- Advanced Analytics -->
+                    <div class="skill-category">
+                        <div class="skill-category-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-4">Advanced Analytics</h3>
+                        <div class="flex flex-wrap">
+                            <span class="skill-badge">Markov Chains</span>
+                            <span class="skill-badge">Shapley Values</span>
+                            <span class="skill-badge">Causal Inference</span>
+                            <span class="skill-badge">Time Series Analysis</span>
+                            <span class="skill-badge">Sentiment Analysis</span>
+                            <span class="skill-badge">Geospatial Analysis</span>
+                            <span class="skill-badge">Regression Modeling</span>
+                            <span class="skill-badge">Clustering</span>
+                            <span class="skill-badge">Random Forest</span>
+                            <span class="skill-badge">XGBoost</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section id="projects" class="py-20 bg-white">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Project Portfolio</h2>
-                    <p class="mt-4 text-lg text-gray-600">Explore my hands-on experience. Filter projects by technology to see relevant work.</p>
-                </div>
-                <div id="filters" class="flex flex-wrap justify-center gap-2 mb-12">
-                </div>
-                <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Technical Skills Chart Section -->
+        <section class="py-16">
+            <div class="container" style="max-width: 64rem;">
+                <div class="dark-card p-8">
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-bold section-title">Technical Proficiency</h2>
+                        <p class="section-subtitle">Core competencies in data analysis and software development</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="skillsChart"></canvas>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <footer id="contact" class="bg-gray-800 text-white">
-            <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8 text-center">
-                <h2 class="text-2xl font-bold">Get In Touch</h2>
-                <p class="mt-4 text-gray-300">I'm always open to discussing new projects, creative ideas, or opportunities.</p>
-                <div class="mt-8 flex justify-center items-center space-x-6">
-                     <a href="mailto:apwork26@gmail.com" class="text-gray-300 hover:text-white">apwork26@gmail.com</a>
-                    <span>&bull;</span>
-                    <a href="https://linkedin.com/in/apurvapopat" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white">LinkedIn</a>
-                    <span>&bull;</span>
-                    <span class="text-gray-300">+91 7738136979</span>
+        <!-- Projects Section -->
+        <section id="projects" class="py-20">
+            <div class="container">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold section-title">Project Portfolio</h2>
+                    <p class="section-subtitle">Explore my hands-on experience. Filter projects by technology to see relevant work</p>
+                </div>
+                <div id="filters" class="flex flex-wrap justify-center mb-12">
+                    <!-- Filters will be populated by JavaScript -->
+                </div>
+                <div id="projects-grid" class="grid grid-cols-1 grid-cols-2 grid-cols-3">
+                    <!-- Projects will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <footer id="contact" class="py-20" style="background: linear-gradient(135deg, var(--primary-dark) 0%, #000000 100%);">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="text-4xl font-bold section-title mb-6">Get In Touch</h2>
+                    <p class="text-xl text-gray-300 mb-12">I'm always open to discussing new projects, creative ideas, or opportunities</p>
+                    <div class="flex flex-wrap justify-center items-center gap-8 mb-12">
+                        <a href="mailto:apwork26@gmail.com" class="text-gray-300 hover:text-white transition-colors flex items-center" style="font-size: 1.125rem; text-decoration: none;">
+                            <i class="fas fa-envelope" style="margin-right: 0.75rem; font-size: 1.5rem;"></i>apwork26@gmail.com
+                        </a>
+                        <a href="https://linkedin.com/in/apurvapopat" target="_blank" rel="noopener noreferrer" 
+                           class="text-gray-300 hover:text-white transition-colors flex items-center" style="font-size: 1.125rem; text-decoration: none;">
+                            <i class="fab fa-linkedin" style="margin-right: 0.75rem; font-size: 1.5rem;"></i>LinkedIn Profile
+                        </a>
+                        <span class="text-gray-300 flex items-center" style="font-size: 1.125rem;">
+                            <i class="fas fa-phone" style="margin-right: 0.75rem; font-size: 1.5rem;"></i>+91 7738136979
+                        </span>
+                    </div>
+                    <div style="border-top: 1px solid #4b5563; padding-top: 2rem;">
+                        <p class="text-gray-400">&copy; 2025 Apurva Popat. All rights reserved.</p>
+                    </div>
                 </div>
             </div>
         </footer>
     </main>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        // Wait for DOM and Chart.js to fully load
+        window.addEventListener('DOMContentLoaded', function() {
+            console.log('=== Portfolio Initialization Started ===');
 
+            // Check if Chart.js is loaded
+            if (typeof Chart === 'undefined') {
+                console.error('Chart.js is not loaded!');
+            } else {
+                console.log('Chart.js version:', Chart.version);
+            }
+
+            // Timeline Data
             const timelineData = [
                 {
-                    type: 'CompanyGroup', // New type to indicate a company with multiple roles
+                    type: 'CompanyGroup',
                     company: 'Inspire Institute Of Sport, JSW Sports',
                     location: 'Bellary',
                     roles: [
@@ -250,7 +802,8 @@
                             date: 'Apr 2025 - Present',
                             title: 'Performance Analyst',
                             description: [
-                                'Specializing in data-driven athlete development, this role leverages advanced tools to optimize performance. Through high-speed video analysis (using Dartfish) and the strategic integration of performance data, the analyst identifies key areas for improvement. Data from sources like World Athletics is meticulously stored in Postgres, with comprehensive insights then visualized and presented via Power BI to coaching staff and athletes.'
+                                'Specializing in data-driven athlete development, leveraging advanced tools to optimize performance through high-speed video analysis using Dartfish.',
+                                'Data from sources like World Athletics is meticulously stored in Postgres, with comprehensive insights visualized via Power BI for coaching staff and athletes.'
                             ]
                         },
                         {
@@ -258,16 +811,17 @@
                             title: 'Lead Data Analyst',
                             description: [
                                 'Maintained and optimized over 50+ PowerBI dashboards for sport science and performance analysis.',
-                                'Developed new sport-specific testing app and dashboard using Flask and Streamlit for athlete database projects.',
-                                'Integrated PIT-M Video Analytics and ensured seamless data capture and analysis for performance tracking.',
-                                'Executed a web scraping project for Athletics performance data from World Athletics Website.'
+                                'Developed sport-specific testing app and dashboard using Flask and Streamlit for athlete database projects.',
+                                'Integrated PIT-M Video Analytics for seamless data capture and analysis.',
+                                'Executed web scraping project for Athletics performance data from World Athletics Website.'
                             ]
                         },
                         {
                             date: 'Mar 2022 - Sep 2022',
                             title: 'Data Management',
                             description: [
-                                'Managed and organized large datasets for sports science applications, ensuring data integrity and accessibility.'
+                                'Managed and organized large datasets for sports science applications, ensuring data integrity and accessibility.',
+                                'Implemented data quality checks and validation processes for athlete performance metrics.'
                             ]
                         }
                     ]
@@ -281,19 +835,20 @@
                     description: [
                         'Coordinated cross-functional teams (marketing, design, development) for Amazon campaign initiatives.',
                         'Analyzed multi-source data to identify trends and insights for optimizing campaign performance and predicting ROI.',
-                        'Utilized Excel and PowerBI extensively to monitor, evaluate, and report on campaign performance.',
-                        'Developed detailed dashboards to track key metrics and provide optimization insights to stakeholders.'
+                        'Utilized Excel and PowerBI to monitor, evaluate, and report on campaign performance.',
+                        'Developed detailed dashboards to track key metrics and provide optimization insights.'
                     ]
                 },
                 {
                     type: 'Education',
-                    date: 'Undergrad',
+                    date: '2018 - 2022',
                     title: 'Bachelor of Technology, Electronics & Telecommunication',
-                    company: 'K.J. Somaiya College of Engineering(University of Mumbai)',
+                    company: 'K.J. Somaiya College of Engineering (University of Mumbai)',
                     location: 'Mumbai',
                     description: [
                         'Specialisation in Big Data Analytics & Network Security.',
-                        'Gained a strong foundation in data structures, algorithms, and network protocols.'
+                        'Gained strong foundation in data structures, algorithms, and network protocols.',
+                        'Completed projects in machine learning, data analysis, and computer vision.'
                     ]
                 },
                 {
@@ -311,265 +866,334 @@
                     company: 'Coursera',
                     location: '',
                     description: []
-                },
+                }
             ];
 
+            // Render Timeline
+            console.log('=== Rendering Timeline ===');
             const timelineContainer = document.getElementById('timeline-container');
-            timelineContainer.innerHTML = ''; // Clear existing content
+            if (timelineContainer) {
+                console.log('Timeline container found');
+                timelineContainer.innerHTML = '';
 
-            timelineData.forEach((item, index) => {
-                const isLast = index === timelineData.length - 1;
-                let itemHtml = '';
+                timelineData.forEach((item, index) => {
+                    let itemHtml = '';
 
-                if (item.type === 'CompanyGroup') {
-                    // Render the main company header
-                    itemHtml += `
-                        <div class="timeline-item relative ${!isLast ? 'pb-8' : ''}">
-                            <div class="absolute top-0 left-3 -ml-px mt-2 w-0.5 h-full bg-gray-300"></div>
-                            <div class="relative flex items-start group">
-                                <div class="bg-gray-300 group-hover:bg-[#A58A57] w-6 h-6 rounded-full flex items-center justify-center ring-4 ring-white transition-colors">
-                                    <span class="text-white text-xs font-bold">C</span>
-                                </div>
-                                <div class="timeline-item-content ml-6 p-4 rounded-lg bg-gray-50 border-l-4 w-full">
-                                    <h3 class="text-lg font-bold text-gray-900">${item.company}</h3>
-                                    <p class="text-md text-gray-700">${item.location}</p>
-                                    <div class="mt-4">
-                                        <!-- Nested roles -->
-                                        ${item.roles.map(role => `
-                                            <div class="timeline-role-item mt-4">
-                                                <p class="text-sm font-medium text-gray-500">${role.date}</p>
-                                                <h4 class="mt-1 text-md font-semibold text-gray-800">${role.title}</h4>
-                                                ${role.description.length > 0 ? `
-                                                <ul class="mt-1 list-disc list-inside space-y-1 text-gray-600 text-sm">
-                                                    ${role.description.map(d => `<li>${d}</li>`).join('')}
-                                                </ul>` : ''}
-                                            </div>
-                                        `).join('')}
-                                    </div>
+                    if (item.type === 'CompanyGroup') {
+                        itemHtml = `
+                            <div class="timeline-item">
+                                <div class="timeline-content">
+                                    <h3 class="text-2xl font-bold text-white mb-2">${item.company}</h3>
+                                    <p class="text-gray-400 mb-6" style="font-size: 1.125rem;">${item.location}</p>
+                                    ${item.roles.map(role => `
+                                        <div class="timeline-role-item">
+                                            <p style="font-size: 0.875rem; font-weight: 500; color: #6b7280; margin-bottom: 0.25rem;">${role.date}</p>
+                                            <h4 style="font-size: 1.125rem; font-weight: 600; color: white; margin-bottom: 0.75rem;">${role.title}</h4>
+                                            ${role.description.length > 0 ? `
+                                            <ul style="list-style: none; padding: 0; margin: 0;">
+                                                ${role.description.map(d => `
+                                                    <li style="display: flex; margin-bottom: 0.5rem; color: #d1d5db;">
+                                                        <span style="width: 0.5rem; height: 0.5rem; background: #60a5fa; border-radius: 50%; margin-top: 0.5rem; margin-right: 0.75rem; flex-shrink: 0;"></span>
+                                                        <span>${d}</span>
+                                                    </li>
+                                                `).join('')}
+                                            </ul>` : ''}
+                                        </div>
+                                    `).join('')}
                                 </div>
                             </div>
-                        </div>
-                    `;
-                } else {
-                    // Render other types (Work, Education, Certification) as before
-                    itemHtml += `
-                        <div class="timeline-item relative ${!isLast ? 'pb-8' : ''}">
-                            <div class="absolute top-0 left-3 -ml-px mt-2 w-0.5 h-full bg-gray-300"></div>
-                            <div class="relative flex items-start group">
-                                <div class="bg-gray-300 group-hover:bg-[#A58A57] w-6 h-6 rounded-full flex items-center justify-center ring-4 ring-white transition-colors">
-                                    <span class="text-white text-xs font-bold">${item.type.charAt(0)}</span>
-                                </div>
-                                <div class="timeline-item-content ml-6 p-4 rounded-lg bg-gray-50 border-l-4 w-full">
-                                    <p class="text-sm font-medium text-gray-500">${item.date}</p>
-                                    <h3 class="mt-1 text-lg font-semibold text-gray-900">${item.title}</h3>
-                                    <p class="mt-1 text-md text-gray-700">${item.company} ${item.location ? `&bull; ${item.location}` : ''}</p>
+                        `;
+                    } else {
+                        itemHtml = `
+                            <div class="timeline-item">
+                                <div class="timeline-content">
+                                    <p style="font-size: 0.875rem; font-weight: 500; color: #6b7280; margin-bottom: 0.25rem;">${item.date}</p>
+                                    <h3 class="text-2xl font-bold text-white mb-2">${item.title}</h3>
+                                    <p style="font-size: 1.125rem; color: #9ca3af; margin-bottom: 1rem;">${item.company}${item.location ? ` • ${item.location}` : ''}</p>
                                     ${item.description.length > 0 ? `
-                                    <ul class="mt-2 list-disc list-inside space-y-1 text-gray-600">
-                                        ${item.description.map(d => `<li>${d}</li>`).join('')}
+                                    <ul style="list-style: none; padding: 0; margin: 0;">
+                                        ${item.description.map(d => `
+                                            <li style="display: flex; margin-bottom: 0.5rem; color: #d1d5db;">
+                                                <span style="width: 0.5rem; height: 0.5rem; background: #60a5fa; border-radius: 50%; margin-top: 0.5rem; margin-right: 0.75rem; flex-shrink: 0;"></span>
+                                                <span>${d}</span>
+                                            </li>
+                                        `).join('')}
                                     </ul>` : ''}
                                 </div>
                             </div>
-                        </div>
-                    `;
+                        `;
+                    }
+                    timelineContainer.innerHTML += itemHtml;
+                });
+                console.log('✓ Timeline rendered successfully');
+            } else {
+                console.error('✗ Timeline container not found!');
+            }
+
+            // Skills Chart - with retry logic
+            console.log('=== Rendering Technical Proficiency Chart ===');
+            const renderChart = () => {
+                const ctx = document.getElementById('skillsChart');
+                if (!ctx) {
+                    console.error('✗ Canvas element not found!');
+                    return false;
                 }
-                timelineContainer.innerHTML += itemHtml;
-            });
 
+                if (typeof Chart === 'undefined') {
+                    console.error('✗ Chart.js not loaded yet, retrying...');
+                    return false;
+                }
 
-            const skillsData = {
-                labels: ['Python', 'SQL', 'PowerBI', 'Pandas', 'Streamlit', 'OpenCV', 'Project Management', 'Google G-suite'],
-                datasets: [{
-                    label: 'Proficiency Level',
-                    data: [95, 90, 95, 85, 80, 75, 90, 85],
-                    backgroundColor: 'rgba(165, 138, 87, 0.6)',
-                    borderColor: 'rgba(165, 138, 87, 1)',
-                    borderWidth: 1,
-                    barPercentage: 0.6,
-                    categoryPercentage: 0.8
-                }]
-            };
+                try {
+                    const skillsData = {
+                        labels: ['Python', 'SQL', 'Power BI', 'Pandas', 'Streamlit', 'OpenCV', 'Project Management', 'Google Workspace'],
+                        datasets: [{
+                            label: 'Proficiency Level',
+                            data: [95, 90, 95, 85, 80, 75, 90, 85],
+                            backgroundColor: 'rgba(96, 165, 250, 0.8)',
+                            borderColor: 'rgba(96, 165, 250, 1)',
+                            borderWidth: 2,
+                            barPercentage: 0.7,
+                            categoryPercentage: 0.8
+                        }]
+                    };
 
-            const ctx = document.getElementById('skillsChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'bar',
-                data: skillsData,
-                options: {
-                    indexAxis: 'y',
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            backgroundColor: '#333',
-                            titleFont: { size: 14 },
-                            bodyFont: { size: 12 },
-                            padding: 10,
-                            cornerRadius: 4
-                        }
-                    },
-                    scales: {
-                        x: {
-                            beginAtZero: true,
-                            grid: {
-                                display: false
+                    new Chart(ctx.getContext('2d'), {
+                        type: 'bar',
+                        data: skillsData,
+                        options: {
+                            indexAxis: 'y',
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    display: false
+                                },
+                                tooltip: {
+                                    backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                                    titleColor: 'white',
+                                    bodyColor: 'white',
+                                    titleFont: { size: 14 },
+                                    bodyFont: { size: 12 },
+                                    padding: 10,
+                                    cornerRadius: 8
+                                }
                             },
-                            ticks: {
-                                display: false
-                            }
-                        },
-                        y: {
-                            grid: {
-                                color: '#E5E7EB'
-                            },
-                            ticks: {
-                                color: '#404040',
-                                font: {
-                                    size: 14,
-                                    weight: '500'
+                            scales: {
+                                x: {
+                                    beginAtZero: true,
+                                    max: 100,
+                                    grid: {
+                                        color: 'rgba(71, 85, 105, 0.3)',
+                                        display: true
+                                    },
+                                    ticks: {
+                                        color: '#cbd5e1',
+                                        callback: function(value) {
+                                            return value + '%';
+                                        }
+                                    }
+                                },
+                                y: {
+                                    grid: {
+                                        color: 'rgba(71, 85, 105, 0.3)'
+                                    },
+                                    ticks: {
+                                        color: '#cbd5e1',
+                                        font: {
+                                            size: 14,
+                                            weight: '500'
+                                        }
+                                    }
                                 }
                             }
                         }
+                    });
+                    console.log('✓ Chart rendered successfully');
+                    return true;
+                } catch (error) {
+                    console.error('✗ Error rendering chart:', error);
+                    return false;
+                }
+            };
+
+            // Try to render chart with retries
+            let chartAttempts = 0;
+            const maxChartAttempts = 10;
+            const chartInterval = setInterval(() => {
+                chartAttempts++;
+                if (renderChart() || chartAttempts >= maxChartAttempts) {
+                    clearInterval(chartInterval);
+                    if (chartAttempts >= maxChartAttempts) {
+                        console.error('✗ Chart rendering failed after', maxChartAttempts, 'attempts');
                     }
                 }
-            });
+            }, 200);
 
-
+            // Projects Data
             const projectsData = [
-    {
-        title: 'Peak Performance & Athlete Pathways Analysis',
-        tags: ['Python', 'SQL', 'Machine Learning', 'Data Visualization', 'Web Scraping'],
-        description: 'Conducted a comprehensive analysis to determine the peak performance age across various Olympic sports and model performance pathways for key Athletics events. The project involved scraping large datasets from the World Athletics website using Python (BeautifulSoup, Selenium), followed by statistical analysis and regression modeling to identify critical development stages. The findings were presented through interactive visualizations in Power BI, providing coaches with data-driven insights to optimize training and strategy.'
-    },
-    {
-        title: 'Talent Hub Identification & Athlete Tracking System',
-        tags: ['Python', 'Power BI', 'Excel', 'Data Analysis', 'Data Engineering'],
-        description: 'Engineered a data-driven framework to identify high-potential talent hubs across India. Utilized Python (Tabula) to automate the extraction of competition results from PDFs, followed by Excel for data cleaning. The project culminated in an interactive Power BI dashboard and a dynamic athlete database, enabling stakeholders to track top-performing states and scout promising athletes based on consistent results over two years. This system streamlined the talent identification process and improved resource allocation.'
-    },
-    {
-        title: 'Judo Performance Analysis & Web Scraping Workflow',
-        tags: ['Python', 'Pandas', 'Web Scraping', 'Data Analysis'],
-        description: 'Developed an end-to-end data workflow to scrape competition data from online sports databases using Python. Conducted a two-part analysis on Judo Olympic and World Championship medalists, including age distribution and a correlation analysis using the Pearson Correlation Coefficient to identify performance trends.'
-    },
-    {
-        title: 'Performance Dashboard for Athlete Workflows',
-        tags: ['Power BI', 'Data Integration', 'Workflow Automation'],
-        description: 'Created a comprehensive Power BI dashboard integrated with Edge10/Teamworks to support the performance team\'s workflows. This solution provides a centralized view of athlete data, enabling streamlined performance monitoring and decision-making for coaching staff.'
-    },
-    {
-        title: 'SwimPro Performance Analysis System',
-        tags: ['Data Visualization', 'Power BI', 'Excel'],
-        description: 'Implemented a new performance analysis system for swimming. This project involved developing a detailed dashboard and supporting analysis models to track and visualize key swimming metrics, providing coaches with actionable insights to optimize athlete training.'
-    },
-    {
-        title: 'Automated Computer Vision Fabric Detection',
-        tags: ['Python', 'OpenCV', 'Machine Learning'],
-        description: 'Engineered an automated quality control system for fabric manufacturing. Utilized OpenCV for advanced image processing and integrated a Convolutional Neural Network (CNN) model to accurately detect and classify distinct fabric defects, significantly improving production efficiency.'
-    },
-    {
-        title: 'Hand Gesture Control System',
-        tags: ['Python', 'Hardware', 'Computer Vision'],
-        description: 'Built a hands-free computer control interface by integrating Arduino ultrasonic sensors with a Raspberry Pi. The system uses Python to interpret hand distances from the monitor and translate them into specific computer commands, demonstrating a practical application of hardware and software integration.'
-    },
-    {
-        title: 'T20 Match Analysis Dashboard',
-        tags: ['Python', 'PowerBI', 'Streamlit', 'Pandas'],
-        description: 'Built an interactive Streamlit app to analyze and visualize T20 cricket matches from IPL and BCCI. Features include data cleaning, transformation, and visualization of key performance trends, run rate comparisons, and score potential spikes.'
-    },
-    {
-        title: 'Advanced Cricket Ball Outcome Prediction',
-        tags: ['Python', 'Machine Learning'],
-        description: 'Developed a machine learning solution (Random Forest, Gradient Boosting) to predict runs per ball using a proprietary dataset of over 200,000 deliveries. Conducted comprehensive model evaluation and extracted insights to optimize bowler strategies.'
-    }
-];
+                {
+                    title: 'Peak Performance & Athlete Pathways Analysis',
+                    tags: ['Python', 'SQL', 'Machine Learning', 'Data Visualization', 'Web Scraping'],
+                    description: 'Conducted comprehensive analysis to determine peak performance age across Olympic sports. Involved scraping datasets from World Athletics using Python (BeautifulSoup, Selenium), followed by statistical analysis and regression modeling.'
+                },
+                {
+                    title: 'Talent Hub Identification & Athlete Tracking System',
+                    tags: ['Python', 'Power BI', 'Excel', 'Data Analysis', 'Data Engineering'],
+                    description: 'Engineered data-driven framework to identify high-potential talent hubs across India. Utilized Python (Tabula) to automate extraction of competition results from PDFs, culminating in interactive Power BI dashboard.'
+                },
+                {
+                    title: 'Judo Performance Analysis & Web Scraping Workflow',
+                    tags: ['Python', 'Pandas', 'Web Scraping', 'Data Analysis'],
+                    description: 'Developed end-to-end data workflow to scrape competition data from online sports databases. Conducted two-part analysis on Judo Olympic and World Championship medalists, including age distribution and correlation analysis.'
+                },
+                {
+                    title: 'Performance Dashboard for Athlete Workflows',
+                    tags: ['Power BI', 'Data Integration', 'Workflow Automation'],
+                    description: 'Created comprehensive Power BI dashboard integrated with Edge10/Teamworks. This solution provides centralized view of athlete data, enabling streamlined performance monitoring and decision-making.'
+                },
+                {
+                    title: 'SwimPro Performance Analysis System',
+                    tags: ['Data Visualization', 'Power BI', 'Excel'],
+                    description: 'Implemented new performance analysis system for swimming. Developed detailed dashboard and supporting analysis models to track and visualize key swimming metrics for coaches.'
+                },
+                {
+                    title: 'Automated Computer Vision Fabric Detection',
+                    tags: ['Python', 'OpenCV', 'Machine Learning'],
+                    description: 'Engineered automated quality control system for fabric manufacturing. Utilized OpenCV for advanced image processing and integrated CNN model to accurately detect and classify fabric defects.'
+                },
+                {
+                    title: 'Hand Gesture Control System',
+                    tags: ['Python', 'Hardware', 'Computer Vision'],
+                    description: 'Built hands-free computer control interface by integrating Arduino ultrasonic sensors with Raspberry Pi. System uses Python to interpret hand distances and translate them into computer commands.'
+                },
+                {
+                    title: 'T20 Match Analysis Dashboard',
+                    tags: ['Python', 'Power BI', 'Streamlit', 'Pandas'],
+                    description: 'Built interactive Streamlit app to analyze and visualize T20 cricket matches from IPL and BCCI. Features include data cleaning, transformation, and visualization of key performance trends.'
+                },
+                {
+                    title: 'Advanced Cricket Ball Outcome Prediction',
+                    tags: ['Python', 'Machine Learning'],
+                    description: 'Developed machine learning solution (Random Forest, Gradient Boosting) to predict runs per ball using proprietary dataset of 200,000+ deliveries. Conducted comprehensive model evaluation.'
+                }
+            ];
 
+            // Render Projects
+            console.log('=== Rendering Projects ===');
             const projectsGrid = document.getElementById('projects-grid');
             const filtersContainer = document.getElementById('filters');
 
-            const allTags = [...new Set(projectsData.flatMap(p => p.tags))];
+            if (projectsGrid && filtersContainer) {
+                console.log('Projects containers found');
 
-            filtersContainer.innerHTML += `<button class="filter-btn active px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-full hover:bg-gray-200 transition" data-filter="all">All</button>`;
-            allTags.forEach(tag => {
-                filtersContainer.innerHTML += `<button class="filter-btn px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-full hover:bg-gray-200 transition" data-filter="${tag}">${tag}</button>`;
-            });
+                const allTags = [...new Set(projectsData.flatMap(p => p.tags))];
 
-            const renderProjects = (filter = 'all') => {
-                projectsGrid.innerHTML = '';
-                const filteredProjects = filter === 'all' ? projectsData : projectsData.filter(p => p.tags.includes(filter));
-
-                filteredProjects.forEach(project => {
-                    const card = `
-                        <div class="project-card bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
-                            <div class="p-6 flex-grow">
-                                <div class="flex flex-wrap gap-2 mb-4">
-                                    ${project.tags.map(tag => `<span class="inline-block bg-yellow-100 text-yellow-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">${tag}</span>`).join('')}
-                                </div>
-                                <h3 class="text-xl font-semibold text-gray-900">${project.title}</h3>
-                                <p class="mt-2 text-gray-600">${project.description}</p>
-                            </div>
-                        </div>
-                    `;
-                    projectsGrid.innerHTML += card;
+                filtersContainer.innerHTML = `<button class="filter-btn active" data-filter="all">All Projects</button>`;
+                allTags.forEach(tag => {
+                    filtersContainer.innerHTML += `<button class="filter-btn" data-filter="${tag}">${tag}</button>`;
                 });
-            };
 
-            filtersContainer.addEventListener('click', (e) => {
-                if(e.target.classList.contains('filter-btn')) {
-                    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-                    e.target.classList.add('active');
-                    renderProjects(e.target.dataset.filter);
-                }
-            });
+                const renderProjects = (filter = 'all') => {
+                    projectsGrid.innerHTML = '';
+                    const filteredProjects = filter === 'all' ? projectsData : projectsData.filter(p => p.tags.includes(filter));
 
-            renderProjects();
+                    filteredProjects.forEach(project => {
+                        const card = document.createElement('div');
+                        card.className = 'project-card';
+                        card.innerHTML = `
+                            <div class="p-6">
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    ${project.tags.map(tag => `<span class="skill-badge">${tag}</span>`).join('')}
+                                </div>
+                                <h3 class="text-xl font-bold text-white mb-4">${project.title}</h3>
+                                <p class="text-gray-300 leading-relaxed">${project.description}</p>
+                            </div>
+                        `;
+                        projectsGrid.appendChild(card);
+                    });
+                    console.log(`✓ Rendered ${filteredProjects.length} projects`);
+                };
 
-            const navbar = document.getElementById('navbar');
+                filtersContainer.addEventListener('click', (e) => {
+                    if(e.target.classList.contains('filter-btn')) {
+                        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                        e.target.classList.add('active');
+                        renderProjects(e.target.dataset.filter);
+                    }
+                });
+
+                renderProjects();
+                console.log('✓ Projects rendered successfully');
+            } else {
+                console.error('✗ Projects containers not found!');
+            }
+
+            // Navigation active state
             const navLinks = document.querySelectorAll('.nav-link');
             const sections = document.querySelectorAll('main > section');
 
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.4
-            };
+            if ('IntersectionObserver' in window) {
+                const observerOptions = {
+                    root: null,
+                    rootMargin: '0px',
+                    threshold: 0.4
+                };
 
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        navLinks.forEach(link => {
-                            link.classList.remove('active');
-                            if (link.getAttribute('href').substring(1) === entry.target.id) {
-                                link.classList.add('active');
-                            }
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            navLinks.forEach(link => {
+                                link.classList.remove('active');
+                                if (link.getAttribute('href').substring(1) === entry.target.id) {
+                                    link.classList.add('active');
+                                }
+                            });
+                        }
+                    });
+                }, observerOptions);
+
+                sections.forEach(section => {
+                    observer.observe(section);
+                });
+            }
+
+            // Mobile Menu
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', () => {
+                    if (mobileMenu.style.display === 'none') {
+                        mobileMenu.style.display = 'block';
+                    } else {
+                        mobileMenu.style.display = 'none';
+                    }
+                });
+
+                document.querySelectorAll('#mobile-menu a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.style.display = 'none';
+                    });
+                });
+            }
+
+            // Smooth scrolling
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
                         });
                     }
                 });
-            }, observerOptions);
-
-            sections.forEach(section => {
-                observer.observe(section);
             });
 
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            const iconPaths = mobileMenuButton.querySelectorAll('path');
-
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-                iconPaths.forEach(path => path.classList.toggle('hidden'));
-            });
-
-            document.querySelectorAll('#mobile-menu a').forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileMenu.classList.add('hidden');
-                    iconPaths.forEach(path => path.classList.toggle('hidden'));
-                });
-            });
-
+            console.log('=== Portfolio Initialization Complete ===');
         });
     </script>
 </body>
 </html>
-
-
